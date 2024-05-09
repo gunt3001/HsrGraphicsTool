@@ -1,0 +1,21 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="HsrGraphicsTool.App"
+             xmlns:local="using:HsrGraphicsTool"
+             xmlns:models="clr-namespace:HsrGraphicsTool.Models"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+  
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+             
+    <Application.Resources>
+        <FontFamily x:Key="AppFontFamily">Segoe UI Variable Text, Segoe UI, Inter, Arial"</FontFamily>
+    </Application.Resources>
+             
+</Application>
