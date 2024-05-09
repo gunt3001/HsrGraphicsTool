@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using HsrGraphicsTool.Models.Services;
 using HsrGraphicsTool.ViewModels;
 using HsrGraphicsTool.Views;
 
@@ -19,7 +20,8 @@ public partial class App : Application
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                // For now, we forego DI to keep it simple
+                DataContext = new MainWindowViewModel(new HsrRegistryManager()),
             };
         }
 

@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="HsrGraphicsTool/App.axaml" value="HsrGraphicsTool/HsrGraphicsTool.csproj" />
         <entry key="HsrGraphicsTool/Views/MainWindow.axaml" value="HsrGraphicsTool/HsrGraphicsTool.csproj" />
       </map>
     </option>
