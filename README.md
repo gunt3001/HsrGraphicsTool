@@ -12,12 +12,16 @@ Also supports the hidden 120 FPS feature of the PC version.
 - [X] **Resolution Settings**: Modify the screen resolution to match your preferences.
 - [X] **Fullscreen/Windowed Mode**: Toggle between fullscreen and windowed modes.
 - [X] **120 FPS support**: Set between 30, 60, or 120 FPS not possible within the game itself
-- [ ] Easy download and installation from GitHub releases
+- [X] Easy download and installation from GitHub releases
 - [ ] Running without the UI for use with automation scripts (ie. with Game Streaming apps like Sunshine)
 
 ## Installation
 
-TBD - currently you can build from source, but I'll set up a release pipeline soon.
+Simply download from the [Releases](https://github.com/gunt3001/HsrGraphicsTool/releases) section of GitHub. 
+
+Choose from your computer architecture (x86 32-bit or x64 64-bit).
+
+Versions with suffix `_fd` are Framework-Dependent version, meaning the exe is smaller, but you need to have .NET 8 runtime installed on your PC.
 
 ## Disclaimer
 
