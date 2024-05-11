@@ -3,7 +3,7 @@ name: Build and Release HsrGraphicsTool
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
 
 jobs:
   build:
