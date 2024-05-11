@@ -32,7 +32,7 @@ jobs:
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HsrGraphicsTool-${{ matrix.architecture }}${{ matrix.self-contained == 'true' && '' || '-fd' }}
+          name: HsrGraphicsTool-${{ matrix.architecture }}${{ matrix.self-contained == 'false' && '-fd' || '' }}
           path: |
             HsrGraphicsTool/bin/windows/Release/net8.0-windows/win-${{ matrix.architecture }}/publish/*
 
