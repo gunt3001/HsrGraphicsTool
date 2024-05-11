@@ -4,12 +4,18 @@ using System.Reactive.Linq;
 using HsrGraphicsTool.Models;
 using HsrGraphicsTool.Models.Services;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace HsrGraphicsTool.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
+    // Injected dependencies
     public IHsrRegistryManager HsrRegistryManager { get; }
+
+    // Reactive properties
+
+    // Regular properties
 
     /// <summary>
     /// Determines whether the controls are disabled because settings cannot be read
@@ -21,179 +27,42 @@ public class MainWindowViewModel : ViewModelBase
     /// </summary>
     private HsrGraphicsConfiguration LastKnownConfig { get; set; }
 
-    /// <summary>
-    /// Flag set during change of preset to prevent reversion to Custom preset
-    /// </summary>
-    private bool IsSettingPreset { get; set; }
-
-    /// <summary>
-    /// Flag set during initial viewmodel creation to prevent reversion to Custom preset
-    /// </summary>
-    private bool IsInitialRun { get; set; } = true;
-
     // Backing fields
-    private int _width;
-    private int _height;
-    private bool _isFullscreen;
-    private GraphicsPresetOption _graphicsPreset;
-    private int _fps;
-    private bool _isVsyncEnabled;
-    private decimal _renderingQuality;
-    private GraphicsQualityOption _shadowQuality;
-    private GraphicsQualityOption _reflectionQuality;
-    private GraphicsQualityOption _characterQuality;
-    private GraphicsQualityOption _environmentDetail;
-    private GraphicsQualityOption _specialEffectsQuality;
-    private GraphicsQualityOption _bloomEffect;
-    private AntiAliasingMode _antiAliasing;
-    private GraphicsQualityOption _lightQuality;
-    private string _statusMessage;
 
-    /// <summary>
-    /// Resolution width
-    /// </summary>
-    public int Width
-    {
-        get => _width;
-        set => this.RaiseAndSetIfChanged(ref _width, value);
-    }
+    [Reactive] public int Width { get; set; }
 
-    /// <summary>
-    /// Resolution height
-    /// </summary>
-    public int Height
-    {
-        get => _height;
-        set => this.RaiseAndSetIfChanged(ref _height, value);
-    }
+    [Reactive] public int Height { get; set; }
 
-    /// <summary>
-    /// Fullscreen mode flag
-    /// </summary>
-    public bool IsFullscreen
-    {
-        get => _isFullscreen;
-        set => this.RaiseAndSetIfChanged(ref _isFullscreen, value);
-    }
+    [Reactive] public bool IsFullscreen { get; set; }
 
-    /// <summary>
-    /// Graphics quality preset
-    /// </summary>
-    public GraphicsPresetOption GraphicsPreset
-    {
-        get => _graphicsPreset;
-        set => this.RaiseAndSetIfChanged(ref _graphicsPreset, value);
-    }
+    [Reactive] public GraphicsPresetOption GraphicsPreset { get; set; }
 
-    /// <summary>
-    /// FPS setting
-    /// </summary>
-    public int Fps
-    {
-        get => _fps;
-        set => this.RaiseAndSetIfChanged(ref _fps, value);
-    }
+    [Reactive] public int Fps { get; set; }
 
-    /// <summary>
-    /// V-Sync setting
-    /// </summary>
-    public bool IsVsyncEnabled
-    {
-        get => _isVsyncEnabled;
-        set => this.RaiseAndSetIfChanged(ref _isVsyncEnabled, value);
-    }
+    [Reactive] public bool IsVsyncEnabled { get; set; }
 
-    /// <summary>
-    /// Rendering quality setting
-    /// </summary>
-    public decimal RenderingQuality
-    {
-        get => _renderingQuality;
-        set => this.RaiseAndSetIfChanged(ref _renderingQuality, value);
-    }
+    [Reactive] public decimal RenderingQuality { get; set; }
 
-    /// <summary>
-    /// Shadow quality setting
-    /// </summary>
-    public GraphicsQualityOption ShadowQuality
-    {
-        get => _shadowQuality;
-        set => this.RaiseAndSetIfChanged(ref _shadowQuality, value);
-    }
+    [Reactive] public GraphicsQualityOption ShadowQuality { get; set; }
 
-    /// <summary>
-    /// Reflection quality setting
-    /// </summary>
-    public GraphicsQualityOption ReflectionQuality
-    {
-        get => _reflectionQuality;
-        set => this.RaiseAndSetIfChanged(ref _reflectionQuality, value);
-    }
+    [Reactive] public GraphicsQualityOption ReflectionQuality { get; set; }
 
-    /// <summary>
-    /// Character quality setting
-    /// </summary>
-    public GraphicsQualityOption CharacterQuality
-    {
-        get => _characterQuality;
-        set => this.RaiseAndSetIfChanged(ref _characterQuality, value);
-    }
+    [Reactive] public GraphicsQualityOption CharacterQuality { get; set; }
 
-    /// <summary>
-    /// Environment detail setting
-    /// </summary>
-    public GraphicsQualityOption EnvironmentDetail
-    {
-        get => _environmentDetail;
-        set => this.RaiseAndSetIfChanged(ref _environmentDetail, value);
-    }
+    [Reactive] public GraphicsQualityOption EnvironmentDetail { get; set; }
 
-    /// <summary>
-    /// Special effects quality setting
-    /// </summary>
-    public GraphicsQualityOption SpecialEffectsQuality
-    {
-        get => _specialEffectsQuality;
-        set => this.RaiseAndSetIfChanged(ref _specialEffectsQuality, value);
-    }
+    [Reactive] public GraphicsQualityOption SpecialEffectsQuality { get; set; }
 
-    /// <summary>
-    /// Bloom effect setting
-    /// </summary>
-    public GraphicsQualityOption BloomEffect
-    {
-        get => _bloomEffect;
-        set => this.RaiseAndSetIfChanged(ref _bloomEffect, value);
-    }
+    [Reactive] public GraphicsQualityOption BloomEffect { get; set; }
 
-    /// <summary>
-    /// Anti-aliasing setting
-    /// </summary>
-    public AntiAliasingMode AntiAliasing
-    {
-        get => _antiAliasing;
-        set => this.RaiseAndSetIfChanged(ref _antiAliasing, value);
-    }
+    [Reactive] public AntiAliasingMode AntiAliasing { get; set; }
 
-    /// <summary>
-    /// Light quality setting
-    /// </summary>
-    public GraphicsQualityOption LightQuality
-    {
-        get => _lightQuality;
-        set => this.RaiseAndSetIfChanged(ref _lightQuality, value);
-    }
+    [Reactive] public GraphicsQualityOption LightQuality { get; set; }
 
-    /// <summary>
-    /// Status message to display to the user
-    /// </summary>
-    public string StatusMessage
-    {
-        get => _statusMessage;
-        set => this.RaiseAndSetIfChanged(ref _statusMessage, value);
-    }
+    [ObservableAsProperty] public string StatusMessage { get; }
 
     // Combo box options
+
     public GraphicsPresetOption[] GraphicsPresetOptions { get; } =
         Enum.GetValues<GraphicsPresetOption>();
 
@@ -267,6 +136,8 @@ public class MainWindowViewModel : ViewModelBase
         GraphicsQualityOption.VeryHigh,
     };
 
+    // Commands
+
     public ReactiveCommand<Unit, Unit> DiscardChanges { get; }
     public ReactiveCommand<Unit, Unit> ApplyChanges { get; }
 
@@ -284,31 +155,33 @@ public class MainWindowViewModel : ViewModelBase
         // Set last known config to revert to if user discard changes
         LastKnownConfig = config;
 
-        // Apply changes
+        // Apply loaded config to UI components
         ApplyConfigToProperties(config);
 
-        // Reactivity
-        // Change advanced settings depending on preset chosen
+        // Set up reactivity
+
+        // Change graphics settings depending on preset chosen
         this.WhenAnyValue(x => x.GraphicsPreset)
             .Where(x => x != GraphicsPresetOption.Custom)
-            .Subscribe(preset =>
+            .Select(hsrRegistryManager.GetCustomGraphicsSettingsForPreset)
+            .Subscribe(settings =>
             {
-                var presetConfig = hsrRegistryManager.GetCustomGraphicsSettingsForPreset(preset);
-                // Manually set a flag to prevent reversion to Custom. If somebody know a better way, enlighten me!
-                IsSettingPreset = true;
-                Fps = presetConfig.Fps;
-                IsVsyncEnabled = presetConfig.IsVsyncEnabled;
-                RenderingQuality = presetConfig.RenderScale;
-                ShadowQuality = presetConfig.ShadowQuality;
-                ReflectionQuality = presetConfig.ReflectionQuality;
-                CharacterQuality = presetConfig.CharacterQuality;
-                EnvironmentDetail = presetConfig.EnvironmentDetailQuality;
-                SpecialEffectsQuality = presetConfig.SfxQuality;
-                BloomEffect = presetConfig.BloomQuality;
-                AntiAliasing = presetConfig.AntiAliasingMode;
-                LightQuality = presetConfig.LightQuality;
-                IsSettingPreset = false;
+                using (DelayChangeNotifications())
+                {
+                    Fps = settings.Fps;
+                    IsVsyncEnabled = settings.IsVsyncEnabled;
+                    RenderingQuality = settings.RenderScale;
+                    ShadowQuality = settings.ShadowQuality;
+                    ReflectionQuality = settings.ReflectionQuality;
+                    CharacterQuality = settings.CharacterQuality;
+                    EnvironmentDetail = settings.EnvironmentDetailQuality;
+                    SpecialEffectsQuality = settings.SfxQuality;
+                    BloomEffect = settings.BloomQuality;
+                    AntiAliasing = settings.AntiAliasingMode;
+                    LightQuality = settings.LightQuality;
+                }
             });
+
         // Reset preset to Custom if any of its dependencies change
         this.WhenAnyValue(
                 x => x.Fps,
@@ -323,23 +196,19 @@ public class MainWindowViewModel : ViewModelBase
                 x => x.AntiAliasing,
                 x => x.LightQuality,
                 (_, _, _, _, _, _, _, _, _, _, _) => Unit.Default)
-            .Where(x => !IsSettingPreset)
-            .Subscribe(_ =>
-            {
-                // Another dirty workaround to prevent reversion to Custom preset during startup
-                if (IsInitialRun)
-                {
-                    IsInitialRun = false;
-                }
-                else
-                {
-                    GraphicsPreset = GraphicsPresetOption.Custom;
-                }
-            });
+            .Where(_ => GraphicsPreset != GraphicsPresetOption.Custom)
+            .Where(_ => !IsPresetValid())
+            .Subscribe(_ => { GraphicsPreset = GraphicsPresetOption.Custom; });
+
+        // Button commands
         // Reverting changes
         DiscardChanges = ReactiveCommand.Create(() => ApplyConfigToProperties(LastKnownConfig));
         // Applying changes
         ApplyChanges = ReactiveCommand.Create(SaveChanges);
+        // Display success message
+        ApplyChanges
+            .Select(_ => "Settings saved successfully.")
+            .ToPropertyEx(this, x => x.StatusMessage);
     }
 
     private void SaveChanges()
@@ -371,8 +240,6 @@ public class MainWindowViewModel : ViewModelBase
         HsrRegistryManager.SaveConfig(newConfig);
         // Save as new last known config
         LastKnownConfig = newConfig;
-        
-        StatusMessage = "Settings saved successfully.";
     }
 
     /// <summary>
@@ -396,5 +263,31 @@ public class MainWindowViewModel : ViewModelBase
         BloomEffect = config.CustomGraphics.BloomQuality;
         AntiAliasing = config.CustomGraphics.AntiAliasingMode;
         LightQuality = config.CustomGraphics.LightQuality;
+    }
+
+    /// <summary>
+    /// Check if the current preset values are match the selected preset
+    /// </summary>
+    /// <returns></returns>
+    private bool IsPresetValid()
+    {
+        // Custom preset is always valid
+        if (GraphicsPreset == GraphicsPresetOption.Custom) return true;
+
+        var preset = HsrRegistryManager.GetCustomGraphicsSettingsForPreset(GraphicsPreset);
+
+        // Compare the preset values
+        // Note that two hidden values are ignored, the ResolutionQuality and MetalFx flag
+        return Fps == preset.Fps &&
+               IsVsyncEnabled == preset.IsVsyncEnabled &&
+               RenderingQuality == preset.RenderScale &&
+               ShadowQuality == preset.ShadowQuality &&
+               ReflectionQuality == preset.ReflectionQuality &&
+               CharacterQuality == preset.CharacterQuality &&
+               EnvironmentDetail == preset.EnvironmentDetailQuality &&
+               SpecialEffectsQuality == preset.SfxQuality &&
+               BloomEffect == preset.BloomQuality &&
+               AntiAliasing == preset.AntiAliasingMode &&
+               LightQuality == preset.LightQuality;
     }
 }
