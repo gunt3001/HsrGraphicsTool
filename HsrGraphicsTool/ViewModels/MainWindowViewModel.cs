@@ -11,7 +11,7 @@ namespace HsrGraphicsTool.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     // Injected dependencies
-    public IHsrRegistryManager HsrRegistryManager { get; }
+    private IHsrRegistryManager HsrRegistryManager { get; }
 
     // Reactive properties
 
@@ -25,7 +25,7 @@ public class MainWindowViewModel : ViewModelBase
     /// <summary>
     /// Last known configuration read from the registry
     /// </summary>
-    private HsrGraphicsConfiguration LastKnownConfig { get; set; }
+    private HsrGraphicsConfiguration? LastKnownConfig { get; set; }
 
     // Backing fields
 
@@ -138,12 +138,19 @@ public class MainWindowViewModel : ViewModelBase
 
     // Commands
 
-    public ReactiveCommand<Unit, Unit> DiscardChanges { get; }
-    public ReactiveCommand<Unit, Unit> ApplyChanges { get; }
+    public ReactiveCommand<Unit, Unit>? DiscardChanges { get; }
+    public ReactiveCommand<Unit, Unit>? ApplyChanges { get; }
+
+    // Default constructor for design-time data
+    public MainWindowViewModel() : this(new HsrRegistryManager())
+    {
+    }
 
     public MainWindowViewModel(IHsrRegistryManager hsrRegistryManager)
     {
         HsrRegistryManager = hsrRegistryManager;
+        StatusMessage = string.Empty;
+        
         // Load from registry
         var config = hsrRegistryManager.ReadConfig();
         if (config == null)
@@ -213,30 +220,25 @@ public class MainWindowViewModel : ViewModelBase
 
     private void SaveChanges()
     {
-        var newConfig = new HsrGraphicsConfiguration
+        var newConfig = new HsrGraphicsConfiguration(Resolution: new HsrResolution
         {
-            Resolution = new HsrResolution
-            {
-                Width = Width,
-                Height = Height,
-                IsFullscreen = IsFullscreen,
-            },
-            GraphicsPreset = GraphicsPreset,
-            CustomGraphics = new HsrCustomGraphics
-            {
-                Fps = Fps,
-                IsVsyncEnabled = IsVsyncEnabled,
-                RenderScale = RenderingQuality,
-                ShadowQuality = ShadowQuality,
-                ReflectionQuality = ReflectionQuality,
-                CharacterQuality = CharacterQuality,
-                EnvironmentDetailQuality = EnvironmentDetail,
-                SfxQuality = SpecialEffectsQuality,
-                BloomQuality = BloomEffect,
-                AntiAliasingMode = AntiAliasing,
-                LightQuality = LightQuality,
-            }
-        };
+            Width = Width,
+            Height = Height,
+            IsFullscreen = IsFullscreen,
+        }, GraphicsPreset: GraphicsPreset, CustomGraphics: new HsrCustomGraphics
+        {
+            Fps = Fps,
+            IsVsyncEnabled = IsVsyncEnabled,
+            RenderScale = RenderingQuality,
+            ShadowQuality = ShadowQuality,
+            ReflectionQuality = ReflectionQuality,
+            CharacterQuality = CharacterQuality,
+            EnvironmentDetailQuality = EnvironmentDetail,
+            SfxQuality = SpecialEffectsQuality,
+            BloomQuality = BloomEffect,
+            AntiAliasingMode = AntiAliasing,
+            LightQuality = LightQuality,
+        });
         HsrRegistryManager.SaveConfig(newConfig);
         // Save as new last known config
         LastKnownConfig = newConfig;

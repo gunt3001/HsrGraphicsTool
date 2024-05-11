@@ -70,12 +70,7 @@ class HsrRegistryManager : IHsrRegistryManager
 
         // If graphics object is still empty, read default values for the preset
         customGraphics ??= GetCustomGraphicsSettingsForPreset(preset);
-        return new HsrGraphicsConfiguration
-        {
-            GraphicsPreset = preset,
-            Resolution = resolution,
-            CustomGraphics = customGraphics,
-        };
+        return new HsrGraphicsConfiguration(preset, resolution, customGraphics);
     }
 
     /// <inheritdoc />
