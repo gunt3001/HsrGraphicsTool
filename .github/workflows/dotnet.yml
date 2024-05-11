@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         architecture: [x86, x64]
+        self-contained: [true, false]
 
     steps:
       - name: Checkout code
@@ -26,12 +27,12 @@ jobs:
 
       - name: Build project
         run: |
-          dotnet publish HsrGraphicsTool/HsrGraphicsTool.csproj -c Release -r win-${{ matrix.architecture }} `--self-contained true /p:PublishSingleFile=true
+          dotnet publish HsrGraphicsTool/HsrGraphicsTool.csproj -c Release -r win-${{ matrix.architecture }} `--self-contained ${{ matrix.self-contained }}
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: HsrGraphicsTool-${{ matrix.architecture }}
+          name: HsrGraphicsTool-${{ matrix.architecture }}${{ matrix.self-contained == 'true' && '' || '-fd' }}
           path: |
             HsrGraphicsTool/bin/windows/Release/net8.0-windows/win-${{ matrix.architecture }}/publish/*
 
@@ -50,7 +51,9 @@ jobs:
       - name: Rename executables by architecture
         run: |
           mv HsrGraphicsTool-x86/HsrGraphicsTool.exe HsrGraphicsTool_x86.exe && \
-          mv HsrGraphicsTool-x64/HsrGraphicsTool.exe HsrGraphicsTool_x64.exe
+          mv HsrGraphicsTool-x64/HsrGraphicsTool.exe HsrGraphicsTool_x64.exe && \
+          mv HsrGraphicsTool-x86-fd/HsrGraphicsTool.exe HsrGraphicsTool_x86_fd.exe && \
+          mv HsrGraphicsTool-x64-fd/HsrGraphicsTool.exe HsrGraphicsTool_x64_fd.exe
 
       - name: Create Release
         id: create_release
@@ -59,6 +62,11 @@ jobs:
         with:
           draft: false
           prerelease: false
+          body: |
+            This is an automated release direct from source using GitHub Actions.
+            The '_fd' versions have smaller exe, but require the .NET 8 runtime to be installed.
           files: |
             HsrGraphicsTool_x86.exe
             HsrGraphicsTool_x64.exe
+            HsrGraphicsTool_x64_fd.exe
+            HsrGraphicsTool_x86_fd.exe
