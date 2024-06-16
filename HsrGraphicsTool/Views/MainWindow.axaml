@@ -3,6 +3,7 @@
         xmlns:vm="using:HsrGraphicsTool.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:enumUtils="clr-namespace:HsrGraphicsTool.Models.EnumUtils"
         mc:Ignorable="d"
         CanResize="False"
         TransparencyLevelHint="AcrylicBlur" Background="Transparent"
@@ -68,18 +69,20 @@
                 <TextBlock Classes="option-label">Resolution</TextBlock>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
                     <NumericUpDown ShowButtonSpinner="False" Minimum="1" Increment="128" FormatString="0"
-                                   Value="{Binding Width}" Width="50"/>
+                                   Value="{Binding Width}" Width="50" />
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">x</TextBlock>
                     <NumericUpDown ShowButtonSpinner="False" Minimum="1" Increment="128" FormatString="0"
-                                   Value="{Binding Height}" Width="50"/>
+                                   Value="{Binding Height}" Width="50" />
                     <CheckBox IsChecked="{Binding IsFullscreen}">Full screen</CheckBox>
                 </StackPanel>
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Graphics quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding GraphicsPresetOptions}"
-                          SelectedItem="{Binding GraphicsPreset}" />
+                          ItemsSource="{Binding GraphicsPresetOptions, 
+                            Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding GraphicsPreset, 
+                            Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">FPS</TextBlock>
@@ -103,54 +106,54 @@
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Shadow quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding ShadowQualityOptions}"
-                          SelectedItem="{Binding ShadowQuality}" />
+                          ItemsSource="{Binding ShadowQualityOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding ShadowQuality, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Reflection quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding ReflectionQualityOptions}"
-                          SelectedItem="{Binding ReflectionQuality}" />
+                          ItemsSource="{Binding ReflectionQualityOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding ReflectionQuality, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Character quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding CharacterQualityOptions}"
-                          SelectedItem="{Binding CharacterQuality}" />
+                          ItemsSource="{Binding CharacterQualityOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding CharacterQuality, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Environment detail</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding EnvironmentDetailOptions}"
-                          SelectedItem="{Binding EnvironmentDetail}" />
+                          ItemsSource="{Binding EnvironmentDetailOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding EnvironmentDetail, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Special effects quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding SpecialEffectsQualityOptions}"
-                          SelectedItem="{Binding SpecialEffectsQuality}" />
+                          ItemsSource="{Binding SpecialEffectsQualityOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding SpecialEffectsQuality, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Bloom effect</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding BloomEffectOptions}"
-                          SelectedItem="{Binding BloomEffect}" />
+                          ItemsSource="{Binding BloomEffectOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding BloomEffect, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Anti-aliasing</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding AntiAliasingOptions}"
-                          SelectedItem="{Binding AntiAliasing}" />
+                          ItemsSource="{Binding AntiAliasingOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding AntiAliasing, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <Grid Classes="option" ColumnDefinitions="140, 270">
                 <TextBlock Classes="option-label">Light quality</TextBlock>
                 <ComboBox Grid.Column="1" SelectedIndex="0" Classes="option-value"
-                          ItemsSource="{Binding LightQualityOptions}"
-                          SelectedItem="{Binding LightQuality}" />
+                          ItemsSource="{Binding LightQualityOptions, Converter={enumUtils:EnumCollectionConverter}}"
+                          SelectedItem="{Binding LightQuality, Converter={enumUtils:EnumValueConverter}}" />
             </Grid>
             <TextBlock Text="{Binding StatusMessage}"
                        Foreground="Green"
-                       FontFamily="{DynamicResource AppFontFamily}"/>
+                       FontFamily="{DynamicResource AppFontFamily}" />
             <Grid ColumnDefinitions="*,8, *">
                 <!-- 'accent' is a built-in style that applies the primary button color -->
                 <!-- ReSharper disable once Xaml.StyleClassNotFound -->
