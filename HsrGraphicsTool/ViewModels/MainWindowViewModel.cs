@@ -138,6 +138,7 @@ public class MainWindowViewModel : ViewModelBase
 
     // Commands
 
+    public ReactiveCommand<Unit, Unit>? UsePrimaryMonitorResolution { get; }
     public ReactiveCommand<Unit, Unit>? DiscardChanges { get; }
     public ReactiveCommand<Unit, Unit>? ApplyChanges { get; }
 
@@ -208,6 +209,13 @@ public class MainWindowViewModel : ViewModelBase
             .Subscribe(_ => { GraphicsPreset = GraphicsPresetOption.Custom; });
 
         // Button commands
+        // Using primary montior resolution
+        UsePrimaryMonitorResolution = ReactiveCommand.Create(() =>
+        {
+            var screenSize = DisplayUtils.GetPhysicalDisplaySize();
+            Width = screenSize.Width;
+            Height = screenSize.Height;
+        });
         // Reverting changes
         DiscardChanges = ReactiveCommand.Create(() => ApplyConfigToProperties(LastKnownConfig));
         // Applying changes
